@@ -5,7 +5,7 @@ let datos=[
     {id: "00003", recurso: 'The Mighty Hungry Doggo', localizacion :"K9", usuario:'Ceobe', sd: 'Sala', fecha: '2019-01-31', status: 'Rechazado'},
     {id: "00004", recurso: 'Batman:the killing joke', localizacion :"C1", usuario: 'HarleenQuincel', sd: 'Domicilio', fecha: '2022-11-11', status: 'Pendiente'},
     {id: "00005", recurso: 'Cars2', localizacion :"G6", usuario: 'FrancescoVirgolini', sd: 'Sala', fecha: '2022-11-10', status: 'Pendiente'} ,
-    {id: "00006", recurso: 'Papelucho va al hospital', localizacion :"D13", usuario: 'Natalia', sd: 'Domicilio', fecha: '2022-10-15', status: 'Aceptado'},
+    {id: "00006", recurso: 'Papelucho va al hospital Barros Luco', localizacion :"D13", usuario: 'Natalia', sd: 'Domicilio', fecha: '2022-10-15', status: 'Aceptado'},
     {id: "00007", recurso: 'El principito', localizacion :"A6", usuario: 'BenjaminRodriguez', sd: 'Domicilio', fecha: '2022-10-23', status: 'Aceptado'}
 ]
 

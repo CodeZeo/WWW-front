@@ -1,7 +1,7 @@
 function VerSol() {
     return(
 
-        <div class="container-fluid">
+        <div class="container-flex">
             <div class="row">
                 <div class="col-lg-12 bg-success ">
                     <div class="row">
