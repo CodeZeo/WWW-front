@@ -4,15 +4,15 @@ class Fila extends React.Component {
     render() {
         return (
             <tr>
-                <td>{this.props.id}</td>
-                <td>{this.props.recurso}</td>
-                <td>{this.props.usuario}</td>
-                <td>{this.props.localizacion}</td>
-                <td>{this.props.sd}</td>
-                <td>{this.props.fecha}</td>
-                <td>{this.props.status}</td>
-                <td>{this.props.status=="Pendiente" ? <button type="button" class="btn btn-primary btn-sm">Registrar</button> : null}
-                    {this.props.status=="Pendiente" ? <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#ModalRechazo">Rechazar</button>: null}
+                <td>{this.props.Id}</td>
+                <td>{this.props.Recurso}</td>
+                <td>{this.props.Usuario}</td>
+                <td>{this.props.Localizacion}</td>
+                <td>{this.props.Sd}</td>
+                <td>{this.props.Fecha}</td>
+                <td>{this.props.Status}</td>
+                <td>{this.props.Status=="Pendiente" ? <button type="button" class="btn btn-primary btn-sm">Registrar</button> : null}
+                    {this.props.Status=="Pendiente" ? <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#ModalRechazo">Rechazar</button>: null}
                     <div class="modal" id="ModalRechazo">
                         <div class="modal-dialog">
                             <div class="modal-content">

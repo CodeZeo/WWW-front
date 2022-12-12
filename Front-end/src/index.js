@@ -4,7 +4,7 @@ import './index.css';
 import VerSol from './VerSol';
 import Nav from "./Nav";
 import App from './App';
-import TabSol from './TabSol';
+import {TabSol, MostrarSolicitudes} from './mocking/datos';
 import reportWebVitals from './reportWebVitals';
 import {ApolloClient, InMemoryCache, ApolloProvider, gql} from '@apollo/client';
 
@@ -34,7 +34,7 @@ client.query({
       }
     }
   ` 
-}).then((result) => console.log(result));
+});
 
 client.query({query: gql`
     query Ejemplar($readEjemplarId: ID) {
@@ -44,7 +44,7 @@ client.query({query: gql`
             }
         }
     }
-`}).then((result) => console.log(result));
+`});
 
 
 
@@ -53,12 +53,13 @@ const root2 = ReactDOM.createRoot(document.getElementById('root2'));
 const header = ReactDOM.createRoot(document.getElementById('header'));
 header.render(
   <ApolloProvider client={client}>
-    <App />
+    <Nav />
+    
   </ApolloProvider>
 );
 root.render(
   <ApolloProvider client={client}>
-    <VerSol />
+      <VerSol />
   </ApolloProvider>
 );
 root2.render(

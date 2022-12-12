@@ -33,10 +33,6 @@ function MostrarDocumento({Id}){
 function App() {
   return (
     <div >
-      
-      <ul>
-        <MostrarSolicitudes></MostrarSolicitudes>
-      </ul>
     </div>
   );
 }

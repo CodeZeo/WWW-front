@@ -1,4 +1,5 @@
 import React from 'react';
+import Fila from "../components/fila";
 import { useQuery, gql } from '@apollo/client';
 
 /*let datos=[
@@ -56,29 +57,72 @@ const GET_SOLICITUDES = gql`
         }
     }
 ` ;
-let datos=[]
 
 
-function MostrarSolicitudes(datos){
+
+
+
+export function MostrarSolicitudes(){
   const {loading, error, data} = useQuery(GET_SOLICITUDES);
-  if (loading) return (<p>Loading...</p>);
-  if (error) return (<p>Error ${error}</p>);
-  
+  //if (loading) return (<p>Loading...</p>);
+  //if (error) return (<p>Error ${error}</p>);
+  return data.readSolicitudes.map(({id,fecha,usuario, ejemplar, prestamo,estado})=>(<Fila Id={id} Recurso={GetTitulo(ejemplar.id)} Usuario={(usuario.nombres+" "+usuario.apellidos)} Localizacion={"ejemplar.ubicacion"} Sd={"prestamo.adomicilio"} Fecha={fecha} Status={estado} />));
+}
   /*return (data.getUsuarios.map(({id, recurso, localizacion,sd, fecha, status})=>
     datos.append({Id: id, Recurso : recurso, Localizacion: localizacion, Sd: sd, Fecha: fecha, Status: status})
-  ))*/
-  //let datitos = data.readSolicitudes()
-  //let datitos = {id: id, recurso: GetTitulo(ejemplar.id), localizacion : ejemplar.ubicacion, usuario: usuario, sd: prestamo.adomicilio, fecha: fecha, status: estado}
- // {id, recurso, localizacion, usuario, sd, fecha, status}
-  let datitos={}
-
-  return (data.readSolicitudes.map(({id,fecha,usuario, ejemplar, prestamo,estado})=>(datitos = {Id, Recurso, Localizacion, Usuario, Sd, Fecha, Status}),
+  ))
+  let datitos = data.readSolicitudes()
+  let datitos = {id: id, recurso: GetTitulo(ejemplar.id), localizacion : ejemplar.ubicacion, usuario: usuario, sd: prestamo.adomicilio, fecha: fecha, status: estado}
+  {id, recurso, localizacion, usuario, sd, fecha, status}
+  
+  return (datitos);
   <div>
     <li key ={id}>{id} {usuario.nombres}{usuario.apellidos}  {fecha}  {"ejemplar.ubicacion prov"}  {GetTitulo(ejemplar.id)} {prestamo.adomicilio} {estado} </li>
   </div>))
  
 }
 
-export default MostrarSolicitudes
+//let datos = MostrarSolicitudes()*/
 
 
+
+export class TabSol extends React.Component {
+    render(){
+        return(
+            <div class="container-flex">
+            <table class="table table-striped ">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Id <span class="badge bg-secondary">&#8597;</span></th>
+                        <th>Recurso <span class="badge bg-secondary">&#8597;</span></th>
+                        <th>Usuario <span class="badge bg-secondary">&#8597;</span></th>
+                        <th>Localización <span class="badge bg-secondary">&#8597;</span></th>
+                        <th>Sala/Dom <span class="badge bg-secondary">&#8597;</span></th>
+                        <th>Fecha sol <span class="badge bg-secondary">&#8597;</span></th>
+                        <th>Status <span class="badge bg-secondary">&#8597;</span></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <MostrarSolicitudes></MostrarSolicitudes>
+                </tbody>
+            </table>
+        </div>
+        );
+    }
+}
+
+//export default TabSol;
+
+
+
+/* /*(let  datitos = []
+                        const {loading, error, data} = useQuery(GET_SOLICITUDES);
+                        if (loading) return (<p>Loading...</p>);
+                        if (error) return (<p>Error ${error}</p>);
+                        
+                        return(data.readSolicitudes.map(({id,fecha,usuario, ejemplar, prestamo,estado})=>(
+                        <Fila Id={id} Recurso={GetTitulo(ejemplar.id)} Usuario={(usuario.nombres+" "+usuario.apellidos)} Localizacion={"ejemplar.ubicacion"} Sd={"prestamo.adomicilio"} Fecha={fecha} Status={estado} />
+                        )))
+                    
+                        );*/
