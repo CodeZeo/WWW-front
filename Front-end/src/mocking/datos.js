@@ -14,17 +14,17 @@ import { useQuery, gql } from '@apollo/client';
 
 export default datos;*/
 const READ_EJEMPLAR = gql`
-    query Ejemplar($readEjemplarId: ID) {
+    query readEjemplar($readEjemplarId: ID) {
         readEjemplar(id: $readEjemplarId) {
             documento{
             titulo
             }
         }
     }
-`
+`;
 
 function GetTitulo(Id){
-    console.log(Id)
+    //console.log(Id)
     const {loading, error, data} = useQuery(READ_EJEMPLAR,{
         variables: { "readEjemplarId": Id},
       });
@@ -70,7 +70,7 @@ function MostrarSolicitudes(datos){
 
   return (data.readSolicitudes.map(({id,fecha,usuario, ejemplar, prestamo,estado})=>
   <div>
-    <li key ={id}>{id} {usuario.nombres}{usuario.apellidos}  {fecha}  {"ejemplar.ubicacion prov"}  {GetTitulo(ejemplar.id)} {"prestamo.adomicilio"} {estado}</li>
+    <li key ={id}>{id} {usuario.nombres}{usuario.apellidos}  {fecha}  {"ejemplar.ubicacion prov"}  {GetTitulo(ejemplar.id)} {prestamo.adomicilio} {estado}</li>
   </div>))
 }
 
