@@ -153,7 +153,7 @@ input EjemplarInput{
 type Solicitud{
     id: ID!
     ejemplar: Ejemplar
-    fecha: Date
+    fecha: String
     usuario: Usuario
     estado: String
     prestamo: Prestamo
@@ -174,6 +174,7 @@ type Alert{
 
 
 type Query{
+    readSolicitudes: [Solicitud]
     readUsuario(id: ID): Usuario
     readDocumento(id: ID): Documento
     readPrestamo(id: ID): Prestamo
@@ -218,6 +219,10 @@ type Mutation{
 
 const resolvers = {
     Query: {
+        async readSolicitudes(obj){
+            const docs = await Solicitud.find().populate('ejemplar').populate('usuario').populate('prestamo');
+            return docs;
+        },
         async readUsuario(obj, {id}){
             const doc = await Usuario.findById(id);
             return doc;

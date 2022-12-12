@@ -2,6 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import React from 'react';
 import { useQuery, gql } from '@apollo/client';
+import MostrarSolicitudes from './mocking/datos';
 
 const READ_DOCUMENTO = gql`
   query ReadDocumento($readDocumentoId: ID) {
@@ -14,18 +15,18 @@ const READ_DOCUMENTO = gql`
 
 `;
 
-function MostrarDocumento({id}){
-  id = '633cf25262289c68d404ca3b'
-  const {loading, error, data} = useQuery(READ_DOCUMENTO,{
-    variables: {id},
+function MostrarDocumento({Id}){
+  Id = "633cf25262289c68d404ca3b"
+  const {loading, error, data} = useQuery(READ_DOCUMENTO, {
+    variables: { "readDocumentoId": Id},
   });
   console.log(data);
   if (loading) return (<p>Loading...</p>);
   if (error) return (<p>Error ${error}</p>);
   
-  return data && data.readDocumento.map(({ id, titulo, autor})=>
-    <li key={id}>{titulo}</li>
-  )
+  return (<div>
+      <p>{data.readDocumento.titulo}</p>
+    </div>)
 }
   
 
@@ -34,7 +35,7 @@ function App() {
     <div >
       
       <ul>
-        <MostrarDocumento>"633ce04d421fdae73d74581b"</MostrarDocumento>
+        <MostrarSolicitudes></MostrarSolicitudes>
       </ul>
     </div>
   );

@@ -15,15 +15,37 @@ const client = new ApolloClient({
 
 client.query({
   query: gql`
-    query ReadDocumento($readDocumentoId: ID) {
-      readDocumento(id: $readDocumentoId) {
+    query ReadSolicitudes {
+      readSolicitudes {
         id
-        titulo
-        autor
+        fecha
+        usuario {
+          nombres
+          apellidos
+        }
+        estado
+        ejemplar {
+          id
+          ubicacion
+        }
+        prestamo {
+          adomicilio
+        }
       }
     }
   ` 
 }).then((result) => console.log(result));
+
+client.query({query: gql`
+    query Ejemplar($readEjemplarId: ID) {
+        readEjemplar(id: $readEjemplarId) {
+            documento{
+            titulo
+            }
+        }
+    }
+`}).then((result) => console.log(result));
+
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

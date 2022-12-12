@@ -21,7 +21,7 @@ class TabSol extends React.Component {
                 </thead>
                 <tbody>
                     {datos.map(row => {
-                        return(<Fila id={row.id} recurso={row.recurso} usuario={row.usuario} localizacion={row.localizacion} sd={row.sd} fecha={row.fecha} status={row.status} />)
+                        return(<Fila id={row.Id} recurso={row.Recurso} usuario={row.Usuario} localizacion={row.Localizacion} sd={row.Sd} fecha={row.Fecha} status={row.Status} />)
                         })
                     }
                 </tbody>
