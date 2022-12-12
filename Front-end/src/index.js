@@ -3,26 +3,46 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import VerSol from './VerSol';
 import Nav from "./Nav";
+import App from './App';
 import TabSol from './TabSol';
 import reportWebVitals from './reportWebVitals';
+import {ApolloClient, InMemoryCache, ApolloProvider, gql} from '@apollo/client';
+
+const client = new ApolloClient({
+  uri: 'http://localhost:8193/graphql',
+  cache: new InMemoryCache(),
+});
+
+client.query({
+  query: gql`
+    query ReadDocumento($readDocumentoId: ID) {
+      readDocumento(id: $readDocumentoId) {
+        id
+        titulo
+        autor
+      }
+    }
+  ` 
+}).then((result) => console.log(result));
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const root2 = ReactDOM.createRoot(document.getElementById('root2'));
 const header = ReactDOM.createRoot(document.getElementById('header'));
 header.render(
-  <React.StrictMode>
-    <Nav />
-  </React.StrictMode>
+  <ApolloProvider client={client}>
+    <App />
+  </ApolloProvider>
 );
 root.render(
-  <React.StrictMode>
+  <ApolloProvider client={client}>
     <VerSol />
-  </React.StrictMode>
+  </ApolloProvider>
 );
 root2.render(
-  <React.StrictMode>
+  <ApolloProvider client={client}>
     <TabSol />
-  </React.StrictMode>
+  </ApolloProvider>
 );
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
