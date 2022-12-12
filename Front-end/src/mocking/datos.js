@@ -67,11 +67,16 @@ function MostrarSolicitudes(datos){
   /*return (data.getUsuarios.map(({id, recurso, localizacion,sd, fecha, status})=>
     datos.append({Id: id, Recurso : recurso, Localizacion: localizacion, Sd: sd, Fecha: fecha, Status: status})
   ))*/
+  //let datitos = data.readSolicitudes()
+  //let datitos = {id: id, recurso: GetTitulo(ejemplar.id), localizacion : ejemplar.ubicacion, usuario: usuario, sd: prestamo.adomicilio, fecha: fecha, status: estado}
+ // {id, recurso, localizacion, usuario, sd, fecha, status}
+  let datitos={}
 
-  return (data.readSolicitudes.map(({id,fecha,usuario, ejemplar, prestamo,estado})=>
+  return (data.readSolicitudes.map(({id,fecha,usuario, ejemplar, prestamo,estado})=>(datitos = {Id, Recurso, Localizacion, Usuario, Sd, Fecha, Status}),
   <div>
-    <li key ={id}>{id} {usuario.nombres}{usuario.apellidos}  {fecha}  {"ejemplar.ubicacion prov"}  {GetTitulo(ejemplar.id)} {prestamo.adomicilio} {estado}</li>
+    <li key ={id}>{id} {usuario.nombres}{usuario.apellidos}  {fecha}  {"ejemplar.ubicacion prov"}  {GetTitulo(ejemplar.id)} {prestamo.adomicilio} {estado} </li>
   </div>))
+ 
 }
 
 export default MostrarSolicitudes
