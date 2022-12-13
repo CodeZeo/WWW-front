@@ -221,7 +221,7 @@ type Mutation{
 const resolvers = {
     Query: {
         async readSolicitudes(obj){
-            const docs = await Solicitud.find().populate('ejemplar').populate('usuario').populate('prestamo').populate("ejemplar.documento");
+            const docs = await Solicitud.find().populate({path: 'ejemplar',populate: {path: "documento"}}).populate('usuario').populate('prestamo');
             return docs;
         },
         async readUsuario(obj, {id}){
@@ -250,7 +250,7 @@ const resolvers = {
         },
         async readSolicitudesUsuario(obj, {nombre}){
             const usuario = await Usuario.findOne({nombres: nombre});
-            const docs = await Solicitud.find({usuario: usuario._id}).populate('ejemplar').populate('usuario').populate('prestamo');
+            const docs = await Solicitud.find({usuario: usuario.id}).populate({path: 'ejemplar',populate: {path: "documento"}}).populate('usuario').populate('prestamo');
             return docs;
         }
     },

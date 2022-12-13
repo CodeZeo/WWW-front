@@ -9,6 +9,7 @@ const AAAA = gql`
             id
             fecha
             usuario {
+            id
             nombres
             apellidos
             }
@@ -16,8 +17,13 @@ const AAAA = gql`
             ejemplar {
             id
             ubicacion
+            documento{
+                id
+                titulo
+                }
             }
             prestamo {
+            id
             adomicilio
             }
         }
@@ -25,9 +31,16 @@ const AAAA = gql`
 `;
 
 export default function GetSol(){
-    const [readSolicitudesUser, {loading, error, data}] = useLazyQuery(AAAA);
+    const [readSolicitudesUser, {loading, error, data}] = useLazyQuery(AAAA,{
+        onCompleted: (data) => {
+            console.log(data);
+        }
+    });
     console.log("readSolicitudesUsuario")
     console.log(readSolicitudesUser)
+    const [formState, SetFormState] = React.useState({
+        entrada: String
+    });
 
     const xd = data && data.readSolicitudesUsuario ? data.readSolicitudesUsuario : [];
 
@@ -36,6 +49,16 @@ export default function GetSol(){
     //console.log(xd[0].id);
     
     return(
+        <form onSubmit={e => {
+            e.preventDefault();
+            console.log(formState.entrada)
+            readSolicitudesUser({
+                variables: {
+                    entrada: formState.entrada
+                }
+            }
+            )
+        }}>
         <div class="container-flex">
             <div class="row">
                 <div class="col-lg-12 bg-success ">
@@ -80,8 +103,14 @@ export default function GetSol(){
                         <div class="col">
                             <div class="row">
                                 <div class="form-floating mb-3 mt-3 col">
-                                    <input type="text" class="form-control" id="email" placeholder="Equisde" name="email"></input>
-                                    <label type="email">ENTRADA</label>
+                                    <input value={formState.entrada} onChange={e=>
+                                        SetFormState({
+                                            ...formState, entrada : e.target.value                    
+                                        }
+                                        )
+                                        }
+                                        type="text" class="form-control" id="entrada" placeholder="Equisde" name="email"></input>
+                                    <label type="email">USUARIO</label>
                                 </div>
                                 <div class="col">
                                     <div class="form-check mb-3 mt-3">
@@ -94,25 +123,20 @@ export default function GetSol(){
                                     </div>
                                 </div>
                                 <div class="col mb-3 mt-3">
-                                    <button onClick={() =>  readSolicitudesUser({ 
-                                        variables: { 
-                                            entrada: "Pizza" 
-                                        } })}
-                                    
-                                 type = "button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#ModalBuscar">Buscar</button>
+                                    <button type = "submit" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#ModalBuscar">Buscar</button>
                                     <div class="modal" id="ModalBuscar">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                <h4 class="modal-title">Solicitudes de Picsa</h4>
+                                                <h4 class="modal-title">Solicitudes Pedidas</h4>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                                 </div>
                                                 <div class="modal-body">
                                                     {(xd.length == 0) ?
                                                     <p>Empty</p>:<div>
                                                             <p>{xd[0].fecha}</p>
-                                                            <p>{xd[0].usuario.nombres}</p>
-                                                            <p>{xd[0].usuario.apellidos}</p>
+                                                            <p>{xd[0].ejemplar.documento.titulo}</p>
+                                                            <p>{xd[0].usuario.nombres} {xd[0].usuario.apellidos}</p>
                                                             <p>{xd[0].estado}</p>
                                                             <p>{xd[0].ejemplar.ubicacion}</p>
                                                         </div>
@@ -132,7 +156,7 @@ export default function GetSol(){
                 </div>
             </div>
         </div>
-        //</form>
+        </form>
     );
 }
 

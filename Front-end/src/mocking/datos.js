@@ -105,10 +105,10 @@ export function MostrarSolicitudes(){
   if (loading) return (<tr><td>Loading...</td></tr>);
   if (error) return (<tr><td>Error ${error}</td></tr>);
   //console.log(data)
-  return 
+  return (
     data.readSolicitudes.map(readSolicitudes=>(
-    <Fila key={readSolicitudes.id} Id={readSolicitudes.id} Recurso={readSolicitudes.ejemplar.documento.titulo} Usuario={(readSolicitudes.usuario.nombres+" "+readSolicitudes.usuario.apellidos)} Localizacion={readSolicitudes.ejemplar.ubicacion} Sd={readSolicitudes.prestamo.adomicilio} Fecha={readSolicitudes.fecha} Status={readSolicitudes.estado} />
-    ));
+    <Fila key={readSolicitudes.id} Id={readSolicitudes.id} Recurso={readSolicitudes.ejemplar.documento.titulo} Usuario={(readSolicitudes.usuario.nombres+" "+readSolicitudes.usuario.apellidos)} Localizacion={readSolicitudes.ejemplar.ubicacion} Sd={readSolicitudes.prestamo.adomicilio? "Domicilio": "Sala"} Fecha={readSolicitudes.fecha} Status={readSolicitudes.estado} />
+    )));
 }
   /*return (data.getUsuarios.map(({id, recurso, localizacion,sd, fecha, status})=>
     datos.append({Id: id, Recurso : recurso, Localizacion: localizacion, Sd: sd, Fecha: fecha, Status: status})

@@ -11,6 +11,16 @@ import {ApolloClient, InMemoryCache, ApolloProvider, gql} from '@apollo/client';
 const client = new ApolloClient({
   uri: 'http://localhost:8193/graphql',
   cache: new InMemoryCache(),
+  defaultOptions: {
+    watchQuery: {
+      fetchPolicy: 'no-cache',
+      errorPolicy: 'ignore',
+    },
+    query: {
+      fetchPolicy: 'no-cache',
+      errorPolicy: 'all',
+    },
+  },
 });
 
 client.query({
@@ -79,6 +89,7 @@ client.query({query:gql`
       id
       fecha
       usuario {
+        id
         nombres
         apellidos
       }
@@ -86,8 +97,13 @@ client.query({query:gql`
       ejemplar {
         id
         ubicacion
+        documento{
+          id
+          titulo
+          }
       }
       prestamo {
+        id
         adomicilio
       }
     }
