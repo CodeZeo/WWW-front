@@ -15,7 +15,7 @@ import { useQuery, gql } from '@apollo/client';
 
 export default datos;*/
 const READ_EJEMPLAR = gql`
-    query readEjemplar($readEjemplarId: ID) {
+    query ReadEjemplar($readEjemplarId: ID) {
         readEjemplar(id: $readEjemplarId) {
             documento{
             titulo
@@ -24,7 +24,7 @@ const READ_EJEMPLAR = gql`
     }
 `;
 
-function GetTitulo(Id){
+export function GetTitulo(Id){
     //console.log(Id)
     const {loading, error, data} = useQuery(READ_EJEMPLAR,{
         variables: { "readEjemplarId": Id},
@@ -37,9 +37,9 @@ function GetTitulo(Id){
 
 
 
-const GET_SOLICITUDES = gql`
-    query ReadSolicitudes {
-        readSolicitudes {
+const READ_SOLICITUD =gql`
+    query ReadSolicitud($readSolicitudId: ID) {
+        readSolicitud(id: $readSolicitudId) {
             id
             fecha
             usuario {
@@ -56,6 +56,44 @@ const GET_SOLICITUDES = gql`
             }
         }
     }
+`
+
+export function GetSolicitud(Id){
+    //console.log(Id)
+    const {loading, error, data} = useQuery(READ_SOLICITUD,{
+        variables: { "readSolicitudId": Id},
+      });
+    if (loading) return (<p>Loading...</p>);
+    if (error) return (<p>Error ${error}</p>);
+
+    return (<Fila Id={data.readSolicitud.id} Recurso={GetTitulo(data.readSolicitud.ejemplar.id)} Usuario={(data.readSolicitud.usuario.nombres+" "+data.readSolicitud.usuario.apellidos)} Localizacion={data.readSolicitud.ejemplar.ubicacion} Sd={data.readSolicitud.prestamo.adomicilio} Fecha={data.readSolicitud.fecha} Status={data.readSolicitud.estado} />)
+}
+
+
+
+const GET_SOLICITUDES = gql`
+    query readSolicitudes {
+        readSolicitudes {
+            id
+            fecha
+            usuario {
+            nombres
+            apellidos
+            }
+            estado
+            ejemplar {
+            documento{
+                id
+                titulo
+            }
+            id
+            ubicacion
+            }
+            prestamo {
+            adomicilio
+            }
+        }
+    }
 ` ;
 
 
@@ -64,9 +102,13 @@ const GET_SOLICITUDES = gql`
 
 export function MostrarSolicitudes(){
   const {loading, error, data} = useQuery(GET_SOLICITUDES);
-  //if (loading) return (<p>Loading...</p>);
-  //if (error) return (<p>Error ${error}</p>);
-  return data.readSolicitudes.map(({id,fecha,usuario, ejemplar, prestamo,estado})=>(<Fila Id={id} Recurso={GetTitulo(ejemplar.id)} Usuario={(usuario.nombres+" "+usuario.apellidos)} Localizacion={"ejemplar.ubicacion"} Sd={"prestamo.adomicilio"} Fecha={fecha} Status={estado} />));
+  if (loading) return (<tr><td>Loading...</td></tr>);
+  if (error) return (<tr><td>Error ${error}</td></tr>);
+  //console.log(data)
+  return 
+    data.readSolicitudes.map(readSolicitudes=>(
+    <Fila key={readSolicitudes.id} Id={readSolicitudes.id} Recurso={readSolicitudes.ejemplar.documento.titulo} Usuario={(readSolicitudes.usuario.nombres+" "+readSolicitudes.usuario.apellidos)} Localizacion={readSolicitudes.ejemplar.ubicacion} Sd={readSolicitudes.prestamo.adomicilio} Fecha={readSolicitudes.fecha} Status={readSolicitudes.estado} />
+    ));
 }
   /*return (data.getUsuarios.map(({id, recurso, localizacion,sd, fecha, status})=>
     datos.append({Id: id, Recurso : recurso, Localizacion: localizacion, Sd: sd, Fecha: fecha, Status: status})
@@ -104,7 +146,7 @@ export class TabSol extends React.Component {
                     </tr>
                 </thead>
                 <tbody>
-                    <MostrarSolicitudes></MostrarSolicitudes>
+                    <MostrarSolicitudes ></MostrarSolicitudes>
                 </tbody>
             </table>
         </div>

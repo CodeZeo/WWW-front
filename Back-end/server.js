@@ -183,6 +183,7 @@ type Query{
     readReserva(id: ID): Reserva
 
     autentificacion(rut: String, huelladigital: String):ID
+    readSolicitudesUsuario(nombre: String): [Solicitud]
 }
 
 type Mutation{
@@ -220,7 +221,7 @@ type Mutation{
 const resolvers = {
     Query: {
         async readSolicitudes(obj){
-            const docs = await Solicitud.find().populate('ejemplar').populate('usuario').populate('prestamo');
+            const docs = await Solicitud.find().populate('ejemplar').populate('usuario').populate('prestamo').populate("ejemplar.documento");
             return docs;
         },
         async readUsuario(obj, {id}){
@@ -247,7 +248,11 @@ const resolvers = {
             const reserva = await Reserva.findById(id).populate('ejemplar').populate('usuario').populate('prestamo');
             return reserva;
         },
-
+        async readSolicitudesUsuario(obj, {nombre}){
+            const usuario = await Usuario.findOne({nombres: nombre});
+            const docs = await Solicitud.find({usuario: usuario._id}).populate('ejemplar').populate('usuario').populate('prestamo');
+            return docs;
+        }
     },
 
     Mutation: {

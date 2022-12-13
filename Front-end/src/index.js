@@ -25,6 +25,10 @@ client.query({
         }
         estado
         ejemplar {
+          documento{
+            id
+            titulo
+            }
           id
           ubicacion
         }
@@ -37,7 +41,7 @@ client.query({
 });
 
 client.query({query: gql`
-    query Ejemplar($readEjemplarId: ID) {
+    query ReadEjemplar($readEjemplarId: ID) {
         readEjemplar(id: $readEjemplarId) {
             documento{
             titulo
@@ -46,6 +50,49 @@ client.query({query: gql`
     }
 `});
 
+
+client.query({query:gql`
+  query ReadSolicitud($readSolicitudId: ID) {
+      readSolicitud(id: $readSolicitudId) {
+        id
+        fecha
+        usuario {
+          nombres
+          apellidos
+        }
+        estado
+        ejemplar {
+          id
+          ubicacion
+        }
+        prestamo {
+          adomicilio
+        }
+      }
+    }
+  `
+});
+
+client.query({query:gql`
+  query ReadSolicitudesUsuario($entrada: String) {
+    readSolicitudesUsuario(nombre: $entrada) {
+      id
+      fecha
+      usuario {
+        nombres
+        apellidos
+      }
+      estado
+      ejemplar {
+        id
+        ubicacion
+      }
+      prestamo {
+        adomicilio
+      }
+    }
+  }
+`}).then((result) => console.log(result));
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
